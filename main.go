@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	pb "vessel-service/proto/vessel"
+	pb "github.com/gregory-vc/vessel-service/proto/vessel"
 
 	"github.com/micro/go-micro"
 )
