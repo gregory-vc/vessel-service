@@ -1,4 +1,4 @@
-module vessel-service
+module github.com/gregory-vc/vessel-service
 
 require (
 	github.com/golang/protobuf v1.2.1-0.20190109072247-347cf4a86c1c
