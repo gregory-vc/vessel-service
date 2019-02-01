@@ -3,14 +3,10 @@
 
 package vessel
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-
 import (
-	client "github.com/micro/go-micro/client"
-	server "github.com/micro/go-micro/server"
-	context "golang.org/x/net/context"
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -22,7 +18,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type Vessel struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -40,16 +36,17 @@ func (m *Vessel) Reset()         { *m = Vessel{} }
 func (m *Vessel) String() string { return proto.CompactTextString(m) }
 func (*Vessel) ProtoMessage()    {}
 func (*Vessel) Descriptor() ([]byte, []int) {
-	return fileDescriptor_vessel_59b3339503f4b360, []int{0}
+	return fileDescriptor_04ef66862bb50716, []int{0}
 }
+
 func (m *Vessel) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Vessel.Unmarshal(m, b)
 }
 func (m *Vessel) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Vessel.Marshal(b, m, deterministic)
 }
-func (dst *Vessel) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Vessel.Merge(dst, src)
+func (m *Vessel) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Vessel.Merge(m, src)
 }
 func (m *Vessel) XXX_Size() int {
 	return xxx_messageInfo_Vessel.Size(m)
@@ -114,16 +111,17 @@ func (m *Specification) Reset()         { *m = Specification{} }
 func (m *Specification) String() string { return proto.CompactTextString(m) }
 func (*Specification) ProtoMessage()    {}
 func (*Specification) Descriptor() ([]byte, []int) {
-	return fileDescriptor_vessel_59b3339503f4b360, []int{1}
+	return fileDescriptor_04ef66862bb50716, []int{1}
 }
+
 func (m *Specification) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Specification.Unmarshal(m, b)
 }
 func (m *Specification) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Specification.Marshal(b, m, deterministic)
 }
-func (dst *Specification) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Specification.Merge(dst, src)
+func (m *Specification) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Specification.Merge(m, src)
 }
 func (m *Specification) XXX_Size() int {
 	return xxx_messageInfo_Specification.Size(m)
@@ -161,16 +159,17 @@ func (m *Response) Reset()         { *m = Response{} }
 func (m *Response) String() string { return proto.CompactTextString(m) }
 func (*Response) ProtoMessage()    {}
 func (*Response) Descriptor() ([]byte, []int) {
-	return fileDescriptor_vessel_59b3339503f4b360, []int{2}
+	return fileDescriptor_04ef66862bb50716, []int{2}
 }
+
 func (m *Response) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Response.Unmarshal(m, b)
 }
 func (m *Response) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Response.Marshal(b, m, deterministic)
 }
-func (dst *Response) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Response.Merge(dst, src)
+func (m *Response) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Response.Merge(m, src)
 }
 func (m *Response) XXX_Size() int {
 	return xxx_messageInfo_Response.Size(m)
@@ -208,82 +207,9 @@ func init() {
 	proto.RegisterType((*Response)(nil), "vessel.Response")
 }
 
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ client.Option
-var _ server.Option
+func init() { proto.RegisterFile("proto/vessel/vessel.proto", fileDescriptor_04ef66862bb50716) }
 
-// Client API for VesselService service
-
-type VesselServiceClient interface {
-	FindAvailable(ctx context.Context, in *Specification, opts ...client.CallOption) (*Response, error)
-	Create(ctx context.Context, in *Vessel, opts ...client.CallOption) (*Response, error)
-}
-
-type vesselServiceClient struct {
-	c           client.Client
-	serviceName string
-}
-
-func NewVesselServiceClient(serviceName string, c client.Client) VesselServiceClient {
-	if c == nil {
-		c = client.NewClient()
-	}
-	if len(serviceName) == 0 {
-		serviceName = "vessel"
-	}
-	return &vesselServiceClient{
-		c:           c,
-		serviceName: serviceName,
-	}
-}
-
-func (c *vesselServiceClient) FindAvailable(ctx context.Context, in *Specification, opts ...client.CallOption) (*Response, error) {
-	req := c.c.NewRequest(c.serviceName, "VesselService.FindAvailable", in)
-	out := new(Response)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *vesselServiceClient) Create(ctx context.Context, in *Vessel, opts ...client.CallOption) (*Response, error) {
-	req := c.c.NewRequest(c.serviceName, "VesselService.Create", in)
-	out := new(Response)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Server API for VesselService service
-
-type VesselServiceHandler interface {
-	FindAvailable(context.Context, *Specification, *Response) error
-	Create(context.Context, *Vessel, *Response) error
-}
-
-func RegisterVesselServiceHandler(s server.Server, hdlr VesselServiceHandler, opts ...server.HandlerOption) {
-	s.Handle(s.NewHandler(&VesselService{hdlr}, opts...))
-}
-
-type VesselService struct {
-	VesselServiceHandler
-}
-
-func (h *VesselService) FindAvailable(ctx context.Context, in *Specification, out *Response) error {
-	return h.VesselServiceHandler.FindAvailable(ctx, in, out)
-}
-
-func (h *VesselService) Create(ctx context.Context, in *Vessel, out *Response) error {
-	return h.VesselServiceHandler.Create(ctx, in, out)
-}
-
-func init() { proto.RegisterFile("proto/vessel/vessel.proto", fileDescriptor_vessel_59b3339503f4b360) }
-
-var fileDescriptor_vessel_59b3339503f4b360 = []byte{
+var fileDescriptor_04ef66862bb50716 = []byte{
 	// 302 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x51, 0x4f, 0x4b, 0xfb, 0x40,
 	0x10, 0xfd, 0x6d, 0xda, 0xa6, 0xe9, 0xfc, 0x68, 0x91, 0x01, 0x61, 0x5b, 0x14, 0x42, 0x0e, 0x92,
