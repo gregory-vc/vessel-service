@@ -8,17 +8,18 @@ import (
 
 	pb "github.com/gregory-vc/vessel-service/proto/vessel"
 	"github.com/micro/go-micro"
+	k8s "github.com/micro/kubernetes/go/micro"
 )
 
-// func createDummyData(repo Repository) {
-// 	defer repo.Close()
-// 	vessels := []*pb.Vessel{
-// 		{Id: "vessel001", Name: "Kane's Salty Secret", MaxWeight: 200000, Capacity: 500},
-// 	}
-// 	for _, v := range vessels {
-// 		repo.Create(v)
-// 	}
-// }
+func createDummyData(repo Repository) {
+	defer repo.Close()
+	vessels := []*pb.Vessel{
+		{Id: "vessel001", Name: "Kane's Salty Secret", MaxWeight: 200000, Capacity: 500},
+	}
+	for _, v := range vessels {
+		repo.Create(v)
+	}
+}
 
 func main() {
 
@@ -30,10 +31,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error connecting to datastore: %v", err)
 	}
-	// repo := &VesselRepository{session.Copy()}
+	repo := &VesselRepository{session.Copy()}
 
-	// createDummyData(repo)
-	srv := micro.NewService(
+	createDummyData(repo)
+	srv := k8s.NewService(
 		micro.Name("go.micro.srv.vessel"),
 		micro.Version("latest"),
 	)
