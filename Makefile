@@ -5,5 +5,10 @@ build:
 		git diff-index --quiet HEAD || git commit -a -m 'fix'
 		git push origin master
 
-run:
-		docker run -p 50052:50051 -e MICRO_SERVER_ADDRESS=:50051 -e MICRO_REGISTRY=mdns vessel-service
+registry:
+		docker build -t eu.gcr.io/my-project-tattoor/vessel-service:latest .
+		gcloud docker -- push eu.gcr.io/my-project-tattoor/vessel-service:latest
+
+deploy:
+	sed "s/{{ UPDATED_AT }}/$(shell date)/g" ./deployments/deployment.tmpl > ./deployments/deployment.yml
+	kubectl replace -f ./deployments/deployment.yml

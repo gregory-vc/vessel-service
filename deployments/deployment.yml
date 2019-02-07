@@ -1,0 +1,31 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: vessel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vessel
+  template:
+    metadata:
+      labels:
+        app: vessel
+    spec:
+        containers:
+        - name: vessel-service
+          image: eu.gcr.io/my-project-tattoor/vessel-service:latest
+          imagePullPolicy: Always
+          command: [
+            "./vessel-service",
+            "--selector=static",
+            "--server_address=:8080"
+          ]
+          env:
+          - name: DB_HOST
+            value: "mongo:27017"
+          - name: UPDATED_AT
+            value: "Чт фев  7 20:43:14 MSK 2019"
+          ports:
+          - containerPort: 8080
+            name: vessel-port
