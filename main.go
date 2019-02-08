@@ -35,7 +35,7 @@ func main() {
 
 	createDummyData(repo)
 	srv := k8s.NewService(
-		micro.Name("go.micro.srv.vessel"),
+		micro.Name("vessel"),
 		micro.Version("latest"),
 	)
 
