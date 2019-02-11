@@ -8,6 +8,7 @@ import (
 
 	pb "github.com/gregory-vc/vessel-service/proto/vessel"
 	"github.com/micro/go-micro"
+	_ "github.com/micro/go-plugins/broker/nats"
 	k8s "github.com/micro/kubernetes/go/micro"
 )
 

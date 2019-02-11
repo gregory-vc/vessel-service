@@ -29,7 +29,7 @@ spec:
           - name: MICRO_BROKER_ADDRESS
             value: "nats:4222"
           - name: UPDATED_AT
-            value: "Пн фев 11 17:17:44 MSK 2019"
+            value: "Пн фев 11 17:25:41 MSK 2019"
           ports:
           - containerPort: 8080
             name: vessel-port
